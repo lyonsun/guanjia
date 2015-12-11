@@ -8,11 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		B67434041C1A2A8E00F8F423 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434031C1A2A8E00F8F423 /* AppDelegate.swift */; };
-		B67434061C1A2A8E00F8F423 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434051C1A2A8E00F8F423 /* ViewController.swift */; };
 		B67434091C1A2A8E00F8F423 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B67434071C1A2A8E00F8F423 /* Main.storyboard */; };
 		B674340B1C1A2A8E00F8F423 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B674340A1C1A2A8E00F8F423 /* Assets.xcassets */; };
 		B674340E1C1A2A8E00F8F423 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B674340C1C1A2A8E00F8F423 /* LaunchScreen.storyboard */; };
 		B67434191C1A2A8F00F8F423 /* GuanJiaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434181C1A2A8F00F8F423 /* GuanJiaTests.swift */; };
+		B67434381C1ABBA500F8F423 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434371C1ABBA500F8F423 /* ProductViewController.swift */; };
+		B674343A1C1AC30B00F8F423 /* ProductTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434391C1AC30B00F8F423 /* ProductTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,7 +29,6 @@
 /* Begin PBXFileReference section */
 		B67434001C1A2A8E00F8F423 /* GuanJia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuanJia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67434031C1A2A8E00F8F423 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B67434051C1A2A8E00F8F423 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B67434081C1A2A8E00F8F423 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B674340A1C1A2A8E00F8F423 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B674340D1C1A2A8E00F8F423 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -36,6 +36,8 @@
 		B67434141C1A2A8F00F8F423 /* GuanJiaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GuanJiaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67434181C1A2A8F00F8F423 /* GuanJiaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuanJiaTests.swift; sourceTree = "<group>"; };
 		B674341A1C1A2A8F00F8F423 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B67434371C1ABBA500F8F423 /* ProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
+		B67434391C1AC30B00F8F423 /* ProductTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +80,9 @@
 			isa = PBXGroup;
 			children = (
 				B67434031C1A2A8E00F8F423 /* AppDelegate.swift */,
-				B67434051C1A2A8E00F8F423 /* ViewController.swift */,
+				B67434371C1ABBA500F8F423 /* ProductViewController.swift */,
 				B67434071C1A2A8E00F8F423 /* Main.storyboard */,
+				B67434391C1AC30B00F8F423 /* ProductTableViewController.swift */,
 				B674340A1C1A2A8E00F8F423 /* Assets.xcassets */,
 				B674340C1C1A2A8E00F8F423 /* LaunchScreen.storyboard */,
 				B674340F1C1A2A8E00F8F423 /* Info.plist */,
@@ -199,7 +202,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B67434061C1A2A8E00F8F423 /* ViewController.swift in Sources */,
+				B67434381C1ABBA500F8F423 /* ProductViewController.swift in Sources */,
+				B674343A1C1AC30B00F8F423 /* ProductTableViewController.swift in Sources */,
 				B67434041C1A2A8E00F8F423 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -390,6 +394,7 @@
 				B674341F1C1A2A8F00F8F423 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B67434201C1A2A8F00F8F423 /* Build configuration list for PBXNativeTarget "GuanJiaTests" */ = {
 			isa = XCConfigurationList;
@@ -398,6 +403,7 @@
 				B67434221C1A2A8F00F8F423 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
