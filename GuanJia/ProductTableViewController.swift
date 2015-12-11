@@ -8,10 +8,15 @@
 
 import UIKit
 import Alamofire
+import SwiftyJSON
 
 class ProductTableViewController: UITableViewController {
     
-    var products = [Product]()
+    var sample_products = [Product]?()
+    
+    var products: Array<Product>?
+    var productsWrapper:ProductsWrapper? // holds the last wrapper that we've loaded
+    var isLoadingProducts = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,24 +27,49 @@ class ProductTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        loadSampleProducts()
+//        loadSampleProducts()
+        
+        loadProducts()
     }
     
     func loadSampleProducts() {
-        let product1 = Product(name: "Product1", desc: "This is product 1")!
-        let product2 = Product(name: "Product2", desc: "This is product 2")!
         
-        products = [product1, product2]
+        let json_product1 = JSON(rawValue: ["name": "Product1", "description": "This is product 1"])!
+        let json_product2 = JSON(rawValue: ["name": "Product2", "description": "This is product 2"])!
         
-        Alamofire.request(.GET, "http://otrack.dev/api/products")
-            .responseJSON{ response in
-                print(response.request)
-                print(response.data)
-                print(response.result)
-                
-                if let JSON = response.result.value {
-                    print("JSON: \(JSON)")
-                }
+        let product1 = Product(json: json_product1)
+        let product2 = Product(json: json_product2)
+        
+        sample_products = [product1, product2]
+    }
+    
+    func loadProducts() {
+        isLoadingProducts = true
+        Product.getProducts({ (productsWrapper, error) in
+            if error != nil
+            {
+                // TODO: improved error handling
+                self.isLoadingProducts = false
+                let alert = UIAlertController(title: "Error", message: "Could not load products \(error?.localizedDescription)", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+            self.addProductsFromWrapper(productsWrapper)
+            self.isLoadingProducts = false
+            self.tableView?.reloadData()
+        })
+    }
+    
+    func addProductsFromWrapper(wrapper: ProductsWrapper?)
+    {
+        self.productsWrapper = wrapper
+        if self.products == nil
+        {
+            self.products = self.productsWrapper?.products
+        }
+        else if self.productsWrapper != nil && self.productsWrapper!.products != nil
+        {
+            self.products = self.products! + self.productsWrapper!.products!
         }
     }
 
@@ -50,15 +80,21 @@ class ProductTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
+    /*
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
+    */
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
-        return products.count
+        if self.products == nil {
+            return 0
+        }
+        
+        return products!.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -66,10 +102,10 @@ class ProductTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ProductTableViewCell
         
-        let product = products[indexPath.row]
+        let product = products![indexPath.row]
         
         cell.nameLabel.text = product.name
-        cell.descLabel.text = product.desc
+        cell.descLabel.text = product.description
 
         return cell
     }
