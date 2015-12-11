@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class ProductTableViewController: UITableViewController {
     
@@ -29,6 +30,17 @@ class ProductTableViewController: UITableViewController {
         let product2 = Product(name: "Product2", desc: "This is product 2")!
         
         products = [product1, product2]
+        
+        Alamofire.request(.GET, "http://otrack.dev/api/products")
+            .responseJSON{ response in
+                print(response.request)
+                print(response.data)
+                print(response.result)
+                
+                if let JSON = response.result.value {
+                    print("JSON: \(JSON)")
+                }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,6 +57,7 @@ class ProductTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        
         return products.count
     }
     
@@ -54,8 +67,6 @@ class ProductTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ProductTableViewCell
         
         let product = products[indexPath.row]
-        
-        print(product.name)
         
         cell.nameLabel.text = product.name
         cell.descLabel.text = product.desc
