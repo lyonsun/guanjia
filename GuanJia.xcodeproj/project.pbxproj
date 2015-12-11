@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9FD35CCE10199C324E05FDEC /* Pods_GuanJia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E7FCFA85EFE755CF5E6AC2 /* Pods_GuanJia.framework */; };
 		B67434041C1A2A8E00F8F423 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434031C1A2A8E00F8F423 /* AppDelegate.swift */; };
 		B67434091C1A2A8E00F8F423 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B67434071C1A2A8E00F8F423 /* Main.storyboard */; };
 		B674340B1C1A2A8E00F8F423 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B674340A1C1A2A8E00F8F423 /* Assets.xcassets */; };
@@ -14,6 +15,8 @@
 		B67434191C1A2A8F00F8F423 /* GuanJiaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434181C1A2A8F00F8F423 /* GuanJiaTests.swift */; };
 		B67434381C1ABBA500F8F423 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434371C1ABBA500F8F423 /* ProductViewController.swift */; };
 		B674343A1C1AC30B00F8F423 /* ProductTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434391C1AC30B00F8F423 /* ProductTableViewController.swift */; };
+		B674343C1C1ACE6E00F8F423 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674343B1C1ACE6E00F8F423 /* Product.swift */; };
+		B674343E1C1AD18200F8F423 /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674343D1C1AD18200F8F423 /* ProductTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		63E7FCFA85EFE755CF5E6AC2 /* Pods_GuanJia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GuanJia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		79B400E7B17AA256E2A72CBB /* Pods-GuanJia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GuanJia.release.xcconfig"; path = "Pods/Target Support Files/Pods-GuanJia/Pods-GuanJia.release.xcconfig"; sourceTree = "<group>"; };
 		B67434001C1A2A8E00F8F423 /* GuanJia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuanJia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67434031C1A2A8E00F8F423 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B67434081C1A2A8E00F8F423 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -38,6 +43,9 @@
 		B674341A1C1A2A8F00F8F423 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B67434371C1ABBA500F8F423 /* ProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		B67434391C1AC30B00F8F423 /* ProductTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTableViewController.swift; sourceTree = "<group>"; };
+		B674343B1C1ACE6E00F8F423 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		B674343D1C1AD18200F8F423 /* ProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTableViewCell.swift; sourceTree = "<group>"; };
+		BECC787F131C697184543F55 /* Pods-GuanJia.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GuanJia.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GuanJia/Pods-GuanJia.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FD35CCE10199C324E05FDEC /* Pods_GuanJia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,12 +67,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3838B2C6BE4A7FD4C2128B0E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				63E7FCFA85EFE755CF5E6AC2 /* Pods_GuanJia.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B67433F71C1A2A8E00F8F423 = {
 			isa = PBXGroup;
 			children = (
 				B67434021C1A2A8E00F8F423 /* GuanJia */,
 				B67434171C1A2A8F00F8F423 /* GuanJiaTests */,
 				B67434011C1A2A8E00F8F423 /* Products */,
+				CEB5E2DDD3275D806AD87B8C /* Pods */,
+				3838B2C6BE4A7FD4C2128B0E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,6 +102,8 @@
 				B67434371C1ABBA500F8F423 /* ProductViewController.swift */,
 				B67434071C1A2A8E00F8F423 /* Main.storyboard */,
 				B67434391C1AC30B00F8F423 /* ProductTableViewController.swift */,
+				B674343D1C1AD18200F8F423 /* ProductTableViewCell.swift */,
+				B674343B1C1ACE6E00F8F423 /* Product.swift */,
 				B674340A1C1A2A8E00F8F423 /* Assets.xcassets */,
 				B674340C1C1A2A8E00F8F423 /* LaunchScreen.storyboard */,
 				B674340F1C1A2A8E00F8F423 /* Info.plist */,
@@ -99,6 +120,15 @@
 			path = GuanJiaTests;
 			sourceTree = "<group>";
 		};
+		CEB5E2DDD3275D806AD87B8C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BECC787F131C697184543F55 /* Pods-GuanJia.debug.xcconfig */,
+				79B400E7B17AA256E2A72CBB /* Pods-GuanJia.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -106,9 +136,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B674341D1C1A2A8F00F8F423 /* Build configuration list for PBXNativeTarget "GuanJia" */;
 			buildPhases = (
+				9E370E0931F17E80B2122728 /* Check Pods Manifest.lock */,
 				B67433FC1C1A2A8E00F8F423 /* Sources */,
 				B67433FD1C1A2A8E00F8F423 /* Frameworks */,
 				B67433FE1C1A2A8E00F8F423 /* Resources */,
+				61748FC51561AD7300FE42AA /* Embed Pods Frameworks */,
+				BDDF88328B3D68C7D37AA995 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -197,12 +230,62 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		61748FC51561AD7300FE42AA /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GuanJia/Pods-GuanJia-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9E370E0931F17E80B2122728 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BDDF88328B3D68C7D37AA995 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GuanJia/Pods-GuanJia-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B67433FC1C1A2A8E00F8F423 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				B67434381C1ABBA500F8F423 /* ProductViewController.swift in Sources */,
+				B674343C1C1ACE6E00F8F423 /* Product.swift in Sources */,
+				B674343E1C1AD18200F8F423 /* ProductTableViewCell.swift in Sources */,
 				B674343A1C1AC30B00F8F423 /* ProductTableViewController.swift in Sources */,
 				B67434041C1A2A8E00F8F423 /* AppDelegate.swift in Sources */,
 			);
@@ -331,6 +414,7 @@
 		};
 		B674341E1C1A2A8F00F8F423 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BECC787F131C697184543F55 /* Pods-GuanJia.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = GuanJia/Info.plist;
@@ -342,6 +426,7 @@
 		};
 		B674341F1C1A2A8F00F8F423 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 79B400E7B17AA256E2A72CBB /* Pods-GuanJia.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = GuanJia/Info.plist;
