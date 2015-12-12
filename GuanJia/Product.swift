@@ -42,7 +42,7 @@ class Product {
     var id: Int?
     var name: String?
     var description: String?
-    var stock: Int?
+    var stock: String?
     var image_id: Int?
     var date_added: String?
     var date_updated: String?
@@ -52,7 +52,7 @@ class Product {
         self.id = json[ProductFields.ID.rawValue].int
         self.name = json[ProductFields.Name.rawValue].string
         self.description = json[ProductFields.Description.rawValue].string
-        self.stock = json[ProductFields.Stock.rawValue].int
+        self.stock = json[ProductFields.Stock.rawValue].string
         self.image_id = json[ProductFields.ImageID.rawValue].int
         self.date_added = json[ProductFields.DateAdded.rawValue].string // TODO: parse to NSDate?
         self.date_updated = json[ProductFields.DateUpdated.rawValue].string // TODO: parse to NSDate?
@@ -108,10 +108,12 @@ extension Alamofire.Request {
             
             let JSONResponseSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
             let result = JSONResponseSerializer.serializeResponse(request, response, responseData, error)
+            // print(result)
             
             switch result {
             case .Success(let value):
                 let results = SwiftyJSON.JSON(value)
+                // print(results)
                 let productsWrapper = ProductsWrapper()
                 
                 var allProducts:Array = Array<Product>()

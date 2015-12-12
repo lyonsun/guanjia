@@ -106,6 +106,17 @@ class ProductTableViewController: UITableViewController {
         
         cell.nameLabel.text = product.name
         cell.descLabel.text = product.description
+        
+        let stock: Int? = Int(product.stock!)
+        if stock <= 1 {
+            cell.stockLabel.textColor = UIColor.redColor()
+        } else if stock <= 5 {
+            cell.stockLabel.textColor = UIColor.yellowColor()
+        } else {
+            cell.stockLabel.textColor = UIColor.greenColor()
+        }
+        
+        cell.stockLabel.text = product.stock
 
         return cell
     }
