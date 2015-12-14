@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import Parse
 
-class ProductViewController: UIViewController {
+class ProductVC: UIViewController {
     
 
     override func viewDidLoad() {
@@ -22,6 +23,11 @@ class ProductViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func logOutUser(sender: UIButton) {
+        PFUser.logOut()
+        self.performSegueWithIdentifier("goSignIn", sender: self)
     }
     
 
