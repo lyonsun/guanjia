@@ -28,8 +28,6 @@ class CustomersTableVC: UITableViewController {
         
         if self.shouldUpdateFromParse && !self.allLoaded {
             self.fetchObjectsFromParse()
-        } else {
-            self.shouldUpdateFromParse = true
         }
     }
     
