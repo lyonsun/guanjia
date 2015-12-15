@@ -11,55 +11,72 @@ import Parse
 
 class ProductsTableVC: UITableViewController {
     
-    var products = [PFObject]()
+    // MARK: Properties
     
-    override init(style: UITableViewStyle) {
-        super.init(style: style)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        // fatalError("init(coder:) has not been implemented")
-    }
+    var productsObjects = [PFObject]()
+    
+    var shouldUpdateFromParse: Bool = true
+    var allLoaded: Bool = false
+    
+    var currentPage: Int = 0
+    let itemPerPage: Int = 10
+    
+    // MARK: View Rendering
     
     override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(true)
+        super.viewDidAppear(animated)
         
-        loadProductsFromParse()
-        
-//        let currentUser = PFUser.currentUser()
-//        if currentUser != nil {
-//            // do somthing here
-//            loadProductsFromParse()
-//        } else {
-//            self.performSegueWithIdentifier("goSignIn", sender: self)
-//        }
+        if self.shouldUpdateFromParse {
+            self.fetchObjectsFromParse()
+        } else {
+            self.shouldUpdateFromParse = true
+        }
     }
     
-    @IBAction func loadProductsFromParse() {
-        products.removeAll()
+    // MARK: Parse Querying
+    
+    func baseQuery() -> PFQuery {
+        let query = PFQuery(className: "products")
         
-        let query = PFQuery(className:"products")
-        query.findObjectsInBackgroundWithBlock {
-            (objects: [PFObject]?, error: NSError?) -> Void in
-            
+        query.limit = itemPerPage
+        query.skip = currentPage * itemPerPage
+        query.orderByDescending("date_updated")
+        
+        return query
+    }
+    
+    func fetchObjectsFromParse() {
+        self.baseQuery().fromLocalDatastore()
+        self.baseQuery().findObjectsInBackgroundWithBlock { ( parseObjects, error) -> Void in
             if error == nil {
-                // The find succeeded.
-                print("Successfully retrieved \(objects!.count) products.")
-                // Do something with the found objects
-                if let objects = objects {
-                    for object in objects {
-                        // print(object.objectId)
-                        self.products.append(object)
+                print("Found \(parseObjects!.count) products from server")
+                
+                self.allLoaded = parseObjects?.count < 10
+                
+                // First, unpin all existing objects
+                PFObject.unpinAllInBackground(self.productsObjects, block: { (succeeded: Bool, error: NSError?) -> Void in
+                    if error == nil {
+                        // Pin all the new objects
+                        PFObject.pinAllInBackground(parseObjects, block: { (succeeded: Bool, error: NSError?) -> Void in
+                            if error == nil {
+                                self.shouldUpdateFromParse = false
+                                
+                                if let objects = parseObjects {
+                                    for object in objects {
+                                        self.productsObjects.append(object)
+                                    }
+                                }
+                                
+                                // Once we've updated the local datastore, update the view with local datastore
+                                self.tableView.reloadData()
+                            } else {
+                                print("Failed to pin objects")
+                            }
+                        })
                     }
-                }
-                
-                self.title = "Products (\(objects!.count))"
-                
-                self.tableView.reloadData()
+                })
             } else {
-                // Log details of the failure
-                print("Error: \(error!) \(error!.userInfo)")
+                print("Couldn't get objects")
             }
         }
     }
@@ -67,25 +84,18 @@ class ProductsTableVC: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return products.count
+        return productsObjects.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cellIdentifier = "ProductTableViewCell"
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ProductTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("ProductTableViewCell", forIndexPath: indexPath) as! ProductTableViewCell
         
-        cell.nameLabel.alpha = 0
-        cell.descLabel.alpha = 0
-        cell.stockLabel.alpha = 0
-        
-        let product = products[indexPath.row]
+        let product = productsObjects[indexPath.row]
         
         let name = product["name"] as? String
         let description = product["description"] as? String
@@ -95,22 +105,33 @@ class ProductsTableVC: UITableViewController {
         cell.descLabel.text = description
         
         let IntStock: Int? = Int(stock!)
-        if IntStock <= 1 {
+        if IntStock <= 5 {
             cell.stockLabel.textColor = UIColor.redColor()
-        } else if IntStock <= 5 {
-            cell.stockLabel.textColor = UIColor.yellowColor()
         } else {
             cell.stockLabel.textColor = UIColor.greenColor()
         }
         
         cell.stockLabel.text = stock
-        
-        UIView.animateWithDuration(0.5, animations: {
-            cell.nameLabel.alpha = 1
-            cell.descLabel.alpha = 1
-            cell.stockLabel.alpha = 1
-        })
-
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        // First figure out how many sections there are
+        let lastSectionIndex = self.tableView!.numberOfSections - 1
+        
+        // Then grab the number of rows in the last section
+        let lastRowIndex = self.tableView!.numberOfRowsInSection(lastSectionIndex) - 1
+        
+        if (indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex) {
+            // This is the last cell
+            if !self.allLoaded {
+                self.currentPage = Int(self.productsObjects.count / self.itemPerPage)
+                
+                self.fetchObjectsFromParse()
+            } else {
+                // all loaded
+                print("all loaded \(self.productsObjects.count)")
+            }
+        }
     }
 }

@@ -72,13 +72,7 @@
                             <outlet property="delegate" destination="D3s-dY-vBB" id="tsb-Ik-duW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Products" id="SHF-Pt-Hz5">
-                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="kvT-0q-Lwb">
-                            <connections>
-                                <action selector="loadProductsFromParse" destination="D3s-dY-vBB" id="1PP-yg-Oge"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Products" id="SHF-Pt-Hz5"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SJ5-jc-njR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
