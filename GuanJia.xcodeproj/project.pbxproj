@@ -14,13 +14,7 @@
 		B674340E1C1A2A8E00F8F423 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B674340C1C1A2A8E00F8F423 /* LaunchScreen.storyboard */; };
 		B67434191C1A2A8F00F8F423 /* GuanJiaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434181C1A2A8F00F8F423 /* GuanJiaTests.swift */; };
 		B674343A1C1AC30B00F8F423 /* ProductsTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434391C1AC30B00F8F423 /* ProductsTableVC.swift */; };
-		B674343C1C1ACE6E00F8F423 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674343B1C1ACE6E00F8F423 /* Product.swift */; };
 		B674343E1C1AD18200F8F423 /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674343D1C1AD18200F8F423 /* ProductTableViewCell.swift */; };
-		B6E9015F1C1DEF1B00F387B0 /* SignInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E9015E1C1DEF1B00F387B0 /* SignInVC.swift */; };
-		B6E901611C1DEF9C00F387B0 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E901601C1DEF9C00F387B0 /* SignUpVC.swift */; };
-		B6E901631C1DFAF100F387B0 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E901621C1DFAF100F387B0 /* SignUp.swift */; };
-		B6E901651C1E052300F387B0 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E901641C1E052300F387B0 /* Enums.swift */; };
-		B6E901671C1E183400F387B0 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E901661C1E183400F387B0 /* SignIn.swift */; };
 		B6E901691C1EA7D400F387B0 /* ProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E901681C1EA7D400F387B0 /* ProductVC.swift */; };
 		B6FEC2F91C1F01B60066615E /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FEC2F81C1F01B60066615E /* HomeVC.swift */; };
 		B6FEC2FB1C1F1B330066615E /* CustomersTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FEC2FA1C1F1B330066615E /* CustomersTableVC.swift */; };
@@ -52,14 +46,8 @@
 		B67434181C1A2A8F00F8F423 /* GuanJiaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuanJiaTests.swift; sourceTree = "<group>"; };
 		B674341A1C1A2A8F00F8F423 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B67434391C1AC30B00F8F423 /* ProductsTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsTableVC.swift; sourceTree = "<group>"; };
-		B674343B1C1ACE6E00F8F423 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		B674343D1C1AD18200F8F423 /* ProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTableViewCell.swift; sourceTree = "<group>"; };
 		B674343F1C1AF2D900F8F423 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
-		B6E9015E1C1DEF1B00F387B0 /* SignInVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInVC.swift; sourceTree = "<group>"; };
-		B6E901601C1DEF9C00F387B0 /* SignUpVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
-		B6E901621C1DFAF100F387B0 /* SignUp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
-		B6E901641C1E052300F387B0 /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
-		B6E901661C1E183400F387B0 /* SignIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		B6E901681C1EA7D400F387B0 /* ProductVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductVC.swift; sourceTree = "<group>"; };
 		B6FEC2F81C1F01B60066615E /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		B6FEC2FA1C1F1B330066615E /* CustomersTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomersTableVC.swift; sourceTree = "<group>"; };
@@ -143,10 +131,6 @@
 		B6E9015C1C1DEE0600F387B0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B674343B1C1ACE6E00F8F423 /* Product.swift */,
-				B6E901621C1DFAF100F387B0 /* SignUp.swift */,
-				B6E901641C1E052300F387B0 /* Enums.swift */,
-				B6E901661C1E183400F387B0 /* SignIn.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -158,8 +142,6 @@
 				B67434391C1AC30B00F8F423 /* ProductsTableVC.swift */,
 				B6FEC2FA1C1F1B330066615E /* CustomersTableVC.swift */,
 				B6FEC2FE1C1F760F0066615E /* OrdersTableVC.swift */,
-				B6E9015E1C1DEF1B00F387B0 /* SignInVC.swift */,
-				B6E901601C1DEF9C00F387B0 /* SignUpVC.swift */,
 				B6FEC2F81C1F01B60066615E /* HomeVC.swift */,
 			);
 			name = ViewControllers;
@@ -347,16 +329,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6E901631C1DFAF100F387B0 /* SignUp.swift in Sources */,
-				B6E901671C1E183400F387B0 /* SignIn.swift in Sources */,
 				B6FEC2FF1C1F760F0066615E /* OrdersTableVC.swift in Sources */,
-				B6E901611C1DEF9C00F387B0 /* SignUpVC.swift in Sources */,
-				B674343C1C1ACE6E00F8F423 /* Product.swift in Sources */,
 				B674343E1C1AD18200F8F423 /* ProductTableViewCell.swift in Sources */,
 				B6FEC3011C1F804C0066615E /* OrderTableViewCell.swift in Sources */,
 				B674343A1C1AC30B00F8F423 /* ProductsTableVC.swift in Sources */,
-				B6E9015F1C1DEF1B00F387B0 /* SignInVC.swift in Sources */,
-				B6E901651C1E052300F387B0 /* Enums.swift in Sources */,
 				B6E901691C1EA7D400F387B0 /* ProductVC.swift in Sources */,
 				B6FEC2FD1C1F23360066615E /* CustomerTableViewCell.swift in Sources */,
 				B6FEC2F91C1F01B60066615E /* HomeVC.swift in Sources */,
