@@ -15,10 +15,9 @@ class CustomersTableVC: UITableViewController {
     
     var customersObjects = [PFObject]()
     
-    var shouldUpdateFromServer: Bool = true
+    var shouldUpdateFromParse: Bool = true
     var allLoaded: Bool = false
 
-    var customersCount: Int = 0
     var currentPage: Int = 0
     let itemPerPage: Int = 10
     
@@ -27,10 +26,10 @@ class CustomersTableVC: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        if self.shouldUpdateFromServer {
-            self.refreshLocalDataStoreFromServer()
+        if self.shouldUpdateFromParse {
+            self.fetchObjectsFromParse()
         } else {
-            self.shouldUpdateFromServer = true
+            self.shouldUpdateFromParse = true
         }
     }
     
@@ -46,13 +45,12 @@ class CustomersTableVC: UITableViewController {
         return query
     }
     
-    func refreshLocalDataStoreFromServer() {
+    func fetchObjectsFromParse() {
         self.baseQuery().fromLocalDatastore()
         self.baseQuery().findObjectsInBackgroundWithBlock { ( parseObjects, error) -> Void in
             if error == nil {
                 print("Found \(parseObjects!.count) customers from server")
                 
-                self.customersCount += (parseObjects?.count)!
                 self.allLoaded = parseObjects?.count < 10
                 
                 // First, unpin all existing objects
@@ -61,7 +59,7 @@ class CustomersTableVC: UITableViewController {
                         // Pin all the new objects
                         PFObject.pinAllInBackground(parseObjects, block: { (succeeded: Bool, error: NSError?) -> Void in
                             if error == nil {
-                                self.shouldUpdateFromServer = false
+                                self.shouldUpdateFromParse = false
                                 
                                 if let objects = parseObjects {
                                     for object in objects {
@@ -86,18 +84,16 @@ class CustomersTableVC: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return customersObjects.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let reuseIdentifier = "cell"
-        let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as! CustomerTableViewCell
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! CustomerTableViewCell
 
         // Configure the cell...
         
@@ -122,10 +118,11 @@ class CustomersTableVC: UITableViewController {
             if !self.allLoaded {
                 self.currentPage = Int(self.customersObjects.count / self.itemPerPage)
                 
-                self.refreshLocalDataStoreFromServer()
+                self.fetchObjectsFromParse()
             } else {
                 // all loaded
-                print("all loaded \(self.customersCount)")            }
+                print("all loaded \(self.customersObjects.count)")
+            }
         }
     }
 }
