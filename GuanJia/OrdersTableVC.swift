@@ -26,7 +26,7 @@ class OrdersTableVC: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        if self.shouldUpdateFromParse {
+        if self.shouldUpdateFromParse && !self.allLoaded {
             self.fetchObjectsFromParse()
         } else {
             self.shouldUpdateFromParse = true
