@@ -8,160 +8,78 @@
 
 import UIKit
 import Parse
-// import ParseUI
 
-class OrdersTableVC: UITableViewController { // , PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate {
+class OrdersTableVC: UITableViewController {
     
     // MARK: Properties
     
-    var orderObjects = [PFObject]()
+    var ordersObjects = [PFObject]()
     
-    var currentPage = 0
-
-    // MARK: View Actions
+    var shouldUpdateFromParse: Bool = true
+    var allLoaded: Bool = false
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
+    var currentPage: Int = 0
+    let itemPerPage: Int = 10
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    // MARK: View Rendering
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-//        
-//        if PFUser.currentUser() == nil {
-//            let logInViewController = PFLogInViewController()
-//            
-//            logInViewController.delegate = self
-//            
-//            let signUpViewController = PFSignUpViewController()
-//            
-//            signUpViewController.delegate = self
-//            
-//            logInViewController.signUpController = signUpViewController
-//            
-//            self.presentViewController(logInViewController, animated: true, completion: nil)
-//        } else {
         
-//            self.fetchAllObjectsFromLocalDataStore()
-            self.fetchAllObjectsFromParse()
-            
-//        }
+        if self.shouldUpdateFromParse {
+            self.fetchObjectsFromParse()
+        } else {
+            self.shouldUpdateFromParse = true
+        }
     }
     
-    // Querying Data
+    // MARK: Parse Querying
     
-    func fetchAllObjectsFromLocalDataStore() {
-        
-        print("current Page: \(self.currentPage)")
-        
+    func baseQuery() -> PFQuery {
         let query = PFQuery(className: "orders")
-        query.fromLocalDatastore()
-        query.orderByDescending("final_delivery_time")
-        query.limit = (self.currentPage + 1) * 10
         
-        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
+        query.limit = itemPerPage
+        query.skip = currentPage * itemPerPage
+        query.orderByDescending("final_delivery_time")
+        
+        return query
+    }
+    
+    func fetchObjectsFromParse() {
+        self.baseQuery().fromLocalDatastore()
+        self.baseQuery().findObjectsInBackgroundWithBlock { ( parseObjects, error) -> Void in
             if error == nil {
-                // The find succeeded.
-                print("Successfully retrieved \(objects!.count) orders.")
-                // Do something with the found objects
-                if let objects = objects {
-                    for object in objects {
-                        self.orderObjects.append(object)
-                        print("Name: \(object.objectForKey("buyer_name"))")
+                print("Found \(parseObjects!.count) orders from server")
+                
+                self.allLoaded = parseObjects?.count < 10
+                
+                // First, unpin all existing objects
+                PFObject.unpinAllInBackground(self.ordersObjects, block: { (succeeded: Bool, error: NSError?) -> Void in
+                    if error == nil {
+                        // Pin all the new objects
+                        PFObject.pinAllInBackground(parseObjects, block: { (succeeded: Bool, error: NSError?) -> Void in
+                            if error == nil {
+                                self.shouldUpdateFromParse = false
+                                
+                                if let objects = parseObjects {
+                                    for object in objects {
+                                        self.ordersObjects.append(object)
+                                    }
+                                }
+                                
+                                // Once we've updated the local datastore, update the view with local datastore
+                                self.tableView.reloadData()
+                            } else {
+                                print("Failed to pin objects")
+                            }
+                        })
                     }
-                }
-                
-                self.tableView.reloadData()
+                })
             } else {
-                print("Error: \(error?.userInfo)")
+                print("Couldn't get objects")
             }
         }
     }
-    
-    func fetchAllObjectsFromParse() {
-        
-        PFObject.unpinAllObjectsInBackgroundWithBlock { (success, error) -> Void in
-            if error == nil {
-                print("Unpin success")
-            } else {
-                print("Error: \(error!.userInfo)")
-            }
-        }
-        let query = PFQuery(className: "orders")
-        query.orderByDescending("final_delivery_time")
-        query.limit = 10
-        query.skip = self.currentPage * 10
-        
-        query.findObjectsInBackgroundWithBlock { (objects, error) -> Void in
-            if error == nil {
-                PFObject.pinAllInBackground(objects, block: nil)
-                print("fetchAllObjectsFromParse: \(objects!.count) orders")
-//                if let objects = objects {
-//                    for object in objects {
-//                        print("Name: \(object.objectForKey("buyer_name"))")
-//                    }
-//                }
-                
-                self.fetchAllObjectsFromLocalDataStore()
-                
-                print("fetchAllObjectsFromLocalDataStore in fetchAllObjectsFromParse: \(objects!.count) orders")
-//                if let objects = objects {
-//                    for object in objects {
-//                        print("Name: \(object.objectForKey("buyer_name"))")
-//                    }
-//                }
-            } else {
-                print("Error: \(error?.userInfo)")
-            }
-        }
-    }
-    
-    // Parse UI
-    /*
-    func logInViewController(logInController: PFLogInViewController, shouldBeginLogInWithUsername username: String, password: String) -> Bool {
-        if !username.isEmpty || !password.isEmpty {
-            return true
-        }
-        return false
-    }
-    
-    func logInViewController(logInController: PFLogInViewController, didLogInUser user: PFUser) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func logInViewController(logInController: PFLogInViewController, didFailToLogInWithError error: NSError?) {
-        print("Failed to log in ...")
-    }
-    
-    func signUpViewController(signUpController: PFSignUpViewController, shouldBeginSignUp info: [NSObject : AnyObject]) -> Bool {
-        if let password = info["password"] as? String {
-            return password.utf16.count >= 8
-        }
-        return false
-    }
-    
-    func signUpViewController(signUpController: PFSignUpViewController, didSignUpUser user: PFUser) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func signUpViewController(signUpController: PFSignUpViewController, didFailToSignUpWithError error: NSError?) {
-        print("Failed to sign up ...")
-    }
-    
-    func signUpViewControllerDidCancelSignUp(signUpController: PFSignUpViewController) {
-        print("User canceled sign up")
-    }
-    */
 
     // MARK: - Table view data source
 
@@ -172,15 +90,16 @@ class OrdersTableVC: UITableViewController { // , PFLogInViewControllerDelegate,
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return self.orderObjects.count
+        return self.ordersObjects.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! OrderTableViewCell
 
         // Configure the cell...
         
-        let order: PFObject = self.orderObjects[indexPath.row]
+        let order: PFObject = self.ordersObjects[indexPath.row]
         
         cell.buyerLabel?.text = order["buyer_name"] as? String
         cell.commentLabel?.text = order["comments"] as? String
@@ -191,7 +110,6 @@ class OrdersTableVC: UITableViewController { // , PFLogInViewControllerDelegate,
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        
         // First figure out how many sections there are
         let lastSectionIndex = self.tableView!.numberOfSections - 1
         
@@ -200,15 +118,14 @@ class OrdersTableVC: UITableViewController { // , PFLogInViewControllerDelegate,
         
         if (indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex) {
             // This is the last cell
-            print("objects count: \(self.orderObjects.count)")
-            
-            self.currentPage = Int(self.orderObjects.count / 10)
-            print("new current page: \(self.currentPage)")
-            
-            
-//            self.fetchAllObjectsFromLocalDataStore()
-            self.fetchAllObjectsFromParse()
+            if !self.allLoaded {
+                self.currentPage = Int(self.ordersObjects.count / self.itemPerPage)
+                
+                self.fetchObjectsFromParse()
+            } else {
+                // all loaded
+                print("all loaded \(self.ordersObjects.count)")
+            }
         }
     }
-    
 }
