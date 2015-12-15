@@ -19,6 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        let color = UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 159.0/255.0, alpha: 1)
+        UITabBar.appearance().barTintColor = color
+        UITabBar.appearance().tintColor = UIColor.blackColor()
+        UINavigationBar.appearance().barTintColor = color
+        UINavigationBar.appearance().tintColor = UIColor.blackColor()
+        
         Parse.enableLocalDatastore()
         
         // Initialize Parse.
