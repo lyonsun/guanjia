@@ -26,8 +26,12 @@ class CustomersTableVC: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        if self.shouldUpdateFromParse && !self.allLoaded {
-            self.fetchObjectsFromParse()
+        if self.shouldUpdateFromParse {
+            if !self.allLoaded {
+                self.fetchObjectsFromParse()
+            }
+        } else {
+            shouldUpdateFromParse = true
         }
     }
     
