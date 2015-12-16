@@ -26,19 +26,23 @@ class ProductsTableVC: UITableViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        if self.shouldUpdateFromParse && !self.allLoaded {
-            self.fetchObjectsFromParse()
+        if self.shouldUpdateFromParse {
+            if !self.allLoaded {
+                self.fetchObjectsFromParse()
+            }
+        } else {
+            shouldUpdateFromParse = true
         }
     }
     
     // MARK: Parse Querying
     
     func baseQuery() -> PFQuery {
-        let query = PFQuery(className: "products")
+        let query = PFQuery(className: "product")
         
         query.limit = itemPerPage
         query.skip = currentPage * itemPerPage
-        query.orderByDescending("date_updated")
+        query.orderByDescending("updatedAt")
         
         return query
     }
@@ -94,22 +98,28 @@ class ProductsTableVC: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("ProductTableViewCell", forIndexPath: indexPath) as! ProductTableViewCell
         
         let product = productsObjects[indexPath.row]
+        let name = product["name"] as! String
+        let description = product["description"] as! String
+        let stock = product["stock"] as! Int
+        let thumbmail = product["imageFile"] as! PFFile
         
-        let name = product["name"] as? String
-        let description = product["description"] as? String
-        let stock = product["stock"] as? String
-        
-        cell.nameLabel.text = name
-        cell.descLabel.text = description
-        
-        let IntStock: Int? = Int(stock!)
-        if IntStock <= 5 {
+        if stock <= 5 {
             cell.stockLabel.textColor = UIColor.redColor()
         } else {
             cell.stockLabel.textColor = UIColor.greenColor()
         }
+
+        cell.nameLabel.text = name
+        cell.descLabel.text = description
+        cell.stockLabel.text = String(stock)
         
-        cell.stockLabel.text = stock
+        thumbmail.getDataInBackgroundWithBlock { (imageData, error) -> Void in
+            if error == nil {
+                let image = UIImage(data: imageData!)
+                cell.photoView.image = image
+            }
+        }
+        
         return cell
     }
     
@@ -130,6 +140,18 @@ class ProductsTableVC: UITableViewController {
                 // all loaded
                 print("all loaded \(self.productsObjects.count)")
             }
+        }
+    }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "editProduct" {
+            print("edit button pressed")
+        }
+        else if segue.identifier == "addProduct" {
+            print("add button pressed")
         }
     }
 }

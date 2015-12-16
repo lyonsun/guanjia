@@ -15,6 +15,7 @@
 		B67434191C1A2A8F00F8F423 /* GuanJiaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434181C1A2A8F00F8F423 /* GuanJiaTests.swift */; };
 		B674343A1C1AC30B00F8F423 /* ProductsTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434391C1AC30B00F8F423 /* ProductsTableVC.swift */; };
 		B674343E1C1AD18200F8F423 /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674343D1C1AD18200F8F423 /* ProductTableViewCell.swift */; };
+		B6BC3DDD1C21660700CAA766 /* AddProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BC3DDC1C21660700CAA766 /* AddProductVC.swift */; };
 		B6FEC2F91C1F01B60066615E /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FEC2F81C1F01B60066615E /* HomeVC.swift */; };
 		B6FEC2FB1C1F1B330066615E /* CustomersTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FEC2FA1C1F1B330066615E /* CustomersTableVC.swift */; };
 		B6FEC2FD1C1F23360066615E /* CustomerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FEC2FC1C1F23360066615E /* CustomerTableViewCell.swift */; };
@@ -47,6 +48,7 @@
 		B67434391C1AC30B00F8F423 /* ProductsTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsTableVC.swift; sourceTree = "<group>"; };
 		B674343D1C1AD18200F8F423 /* ProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTableViewCell.swift; sourceTree = "<group>"; };
 		B674343F1C1AF2D900F8F423 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Pods/../build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
+		B6BC3DDC1C21660700CAA766 /* AddProductVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductVC.swift; sourceTree = "<group>"; };
 		B6FEC2F81C1F01B60066615E /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		B6FEC2FA1C1F1B330066615E /* CustomersTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomersTableVC.swift; sourceTree = "<group>"; };
 		B6FEC2FC1C1F23360066615E /* CustomerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerTableViewCell.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				B6FEC2FA1C1F1B330066615E /* CustomersTableVC.swift */,
 				B6FEC2FE1C1F760F0066615E /* OrdersTableVC.swift */,
 				B6FEC2F81C1F01B60066615E /* HomeVC.swift */,
+				B6BC3DDC1C21660700CAA766 /* AddProductVC.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 				B6FEC2F91C1F01B60066615E /* HomeVC.swift in Sources */,
 				B67434041C1A2A8E00F8F423 /* AppDelegate.swift in Sources */,
 				B6FEC2FB1C1F1B330066615E /* CustomersTableVC.swift in Sources */,
+				B6BC3DDD1C21660700CAA766 /* AddProductVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +472,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = GuanJia/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lyon.GuanJia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -485,6 +490,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = GuanJia/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lyon.GuanJia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
