@@ -23,6 +23,11 @@ class ProductsTableVC: UITableViewController {
     
     // MARK: View Rendering
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.leftBarButtonItem = editButtonItem()
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -140,6 +145,42 @@ class ProductsTableVC: UITableViewController {
                 // all loaded
                 print("all loaded \(self.productsObjects.count)")
             }
+        }
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            // Delete the row from the data source
+            
+            for path in [indexPath] {
+                let product = productsObjects[path.row]
+                let objectId:String = product.objectId!
+                
+                let query = PFQuery(className: "product")
+                
+                query.whereKey("objectId", equalTo: objectId)
+                query.findObjectsInBackgroundWithBlock {
+                    (objects, error) -> Void in
+                    if error == nil {
+                        if let products = objects {
+                            for product in products {
+                                product.deleteInBackgroundWithBlock({ (success, error) -> Void in
+                                    if error != nil {
+                                        print(error)
+                                    }
+                                })
+                            }
+                        }
+                    } else {
+                        print(error)
+                    }
+                }
+                productsObjects.removeAtIndex(path.row)
+            }
+            
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        } else if editingStyle == .Insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
     

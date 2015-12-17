@@ -9,19 +9,25 @@
 import UIKit
 import Parse
 
-class AddProductVC: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddProductVC: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CategoryDelegate {
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var descTextView: UITextView!
     @IBOutlet weak var stockTextField: UITextField!
-    @IBOutlet weak var photoView: UIImageView!
+    @IBOutlet weak var brandTextField: UITextField!
+    @IBOutlet weak var categoryLabel: UILabel!
+    
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    @IBOutlet weak var photoView: UIImageView!
+    
+    var categorySelected = PFObject(className: "category")
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        nameTextField.delegate = self
+        stockTextField.delegate = self
         
         checkTextFieldNotEmpty()
         
@@ -40,11 +46,9 @@ class AddProductVC: UIViewController, UITextFieldDelegate, UIImagePickerControll
     
     func checkTextFieldNotEmpty() {
         let nameText = nameTextField.text ?? ""
-        let descText = descTextView.text ?? ""
         let stockText = stockTextField.text ?? ""
         
-        print("\(nameText)")
-        saveButton.enabled = !nameText.isEmpty && !descText.isEmpty && !stockText.isEmpty
+        saveButton.enabled = !nameText.isEmpty && !stockText.isEmpty
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -53,19 +57,8 @@ class AddProductVC: UIViewController, UITextFieldDelegate, UIImagePickerControll
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
+        print(textField)
         checkTextFieldNotEmpty()
-    }
-    
-    @IBAction func selectImageTapped(sender: UITapGestureRecognizer) {
-        print("select image tapped")
-        nameTextField.resignFirstResponder()
-        
-        let imagePickerController = UIImagePickerController()
-        
-        imagePickerController.sourceType = .PhotoLibrary
-        imagePickerController.delegate = self
-        
-        self.presentViewController(imagePickerController, animated: true, completion: nil)
     }
     
     @IBAction func saveAction(sender: UIBarButtonItem) {
@@ -79,13 +72,14 @@ class AddProductVC: UIViewController, UITextFieldDelegate, UIImagePickerControll
         let image = self.scaleImageWith(pickedImage!, newSize: CGSize(width: 100, height: 100))
         
         let imageData = UIImagePNGRepresentation(image)
-        let imageFile = PFFile(name:name, data:imageData!)
+        let imageFile = PFFile(name:NSUUID().UUIDString, data:imageData!)
         
         let product = PFObject(className:"product")
         
         product["name"] = name
         product["description"] = description
         product["stock"] = stock
+        product["category"] = self.categorySelected
         product["imageFile"] = imageFile
         
         product.saveInBackgroundWithBlock { (success, error) -> Void in
@@ -119,15 +113,49 @@ class AddProductVC: UIViewController, UITextFieldDelegate, UIImagePickerControll
         photoView.image = selectedImage
         dismissViewControllerAnimated(true, completion: nil)
     }
-
-    /*
+    
+    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+        if indexPath.section == 0 || indexPath.section == 1 && indexPath.row == 2 {
+            return indexPath
+        } else {
+            return nil
+        }
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 0 && indexPath.row == 0 {
+            print("select image tapped")
+            
+            let imagePickerController = UIImagePickerController()
+            
+            imagePickerController.sourceType = .PhotoLibrary
+            imagePickerController.delegate = self
+            
+            self.presentViewController(imagePickerController, animated: true, completion: nil)
+        }
+    }
+    
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "selectCategory" {
+            let catogoryList = segue.destinationViewController as! CategoryTableViewController
+            catogoryList.delegate = self
+        }
     }
-    */
-
+    
+    func userDidSelectCategory(category: AnyObject) {
+        
+        let categoryName = category["name"] as? String ?? ""
+        
+        print(categoryName)
+        
+        self.categorySelected = category as! PFObject
+        
+        self.categoryLabel.text = categoryName
+    }
 }
