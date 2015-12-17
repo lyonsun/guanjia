@@ -9,19 +9,24 @@
 import UIKit
 import Parse
 
-class AddProductVC: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CategoryDelegate {
+class AddProductVC: UITableViewController, UITextFieldDelegate {
     
+    // MARK: Properties
+    
+    @IBOutlet weak var photoView: UIImageView!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var descTextView: UITextView!
     @IBOutlet weak var stockTextField: UITextField!
     @IBOutlet weak var brandTextField: UITextField!
     @IBOutlet weak var categoryLabel: UILabel!
+    @IBOutlet weak var brandLabel: UILabel!
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
-    @IBOutlet weak var photoView: UIImageView!
-    
     var categorySelected = PFObject(className: "category")
+    var brandSelected = PFObject(className: "brand")
+    
+    // MARK: View rendering
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +44,8 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UIImagePickerCon
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // MARK: Validation & Actions
     
     func textFieldDidBeginEditing(textField: UITextField) {
         saveButton.enabled = false
@@ -103,19 +110,10 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UIImagePickerCon
         return newImage
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        
-        photoView.image = selectedImage
-        dismissViewControllerAnimated(true, completion: nil)
-    }
+    // MARK: Table View Delegate
     
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        if indexPath.section == 0 || indexPath.section == 1 && indexPath.row == 2 {
+        if indexPath.section == 0 || (indexPath.section == 1 && (indexPath.row == 2 || indexPath.row == 3)) {
             return indexPath
         } else {
             return nil
@@ -124,8 +122,6 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UIImagePickerCon
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 {
-            print("select image tapped")
-            
             let imagePickerController = UIImagePickerController()
             
             imagePickerController.sourceType = .PhotoLibrary
@@ -145,8 +141,32 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UIImagePickerCon
         if segue.identifier == "selectCategory" {
             let catogoryList = segue.destinationViewController as! CategoryTableViewController
             catogoryList.delegate = self
+        } else if segue.identifier == "selectBrand" {
+            let brandList = segue.destinationViewController as! BrandTableViewController
+            brandList.delegate = self
         }
     }
+}
+
+extension AddProductVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    // MARK: Image Picker Delegate
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
+        photoView.image = selectedImage
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+extension AddProductVC: CategoryDelegate {
+    
+    // MARK: Category Delegate
     
     func userDidSelectCategory(category: AnyObject) {
         
@@ -157,5 +177,21 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UIImagePickerCon
         self.categorySelected = category as! PFObject
         
         self.categoryLabel.text = categoryName
+    }
+}
+
+extension AddProductVC: BrandDelegate {
+    
+    // MARK: Brand Delegate
+    
+    func userDidSelectBrand(brand: AnyObject) {
+        
+        let brandName = brand["name"] as? String ?? ""
+        
+        print(brandName)
+        
+        self.brandSelected = brand as! PFObject
+        
+        self.brandLabel.text = brandName
     }
 }

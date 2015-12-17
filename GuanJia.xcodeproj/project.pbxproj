@@ -10,6 +10,8 @@
 		9FD35CCE10199C324E05FDEC /* Pods_GuanJia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E7FCFA85EFE755CF5E6AC2 /* Pods_GuanJia.framework */; };
 		B6046B841C22D56C00411DE9 /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6046B831C22D56C00411DE9 /* CategoryTableViewController.swift */; };
 		B6046B8A1C22E6FF00411DE9 /* AddCategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6046B891C22E6FF00411DE9 /* AddCategoryTableViewController.swift */; };
+		B6046B8E1C23215E00411DE9 /* BrandTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6046B8D1C23215E00411DE9 /* BrandTableViewController.swift */; };
+		B6046B901C23276D00411DE9 /* AddBrandTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6046B8F1C23276D00411DE9 /* AddBrandTableViewController.swift */; };
 		B67434041C1A2A8E00F8F423 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67434031C1A2A8E00F8F423 /* AppDelegate.swift */; };
 		B67434091C1A2A8E00F8F423 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B67434071C1A2A8E00F8F423 /* Main.storyboard */; };
 		B674340B1C1A2A8E00F8F423 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B674340A1C1A2A8E00F8F423 /* Assets.xcassets */; };
@@ -40,6 +42,8 @@
 		79B400E7B17AA256E2A72CBB /* Pods-GuanJia.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GuanJia.release.xcconfig"; path = "Pods/Target Support Files/Pods-GuanJia/Pods-GuanJia.release.xcconfig"; sourceTree = "<group>"; };
 		B6046B831C22D56C00411DE9 /* CategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
 		B6046B891C22E6FF00411DE9 /* AddCategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCategoryTableViewController.swift; sourceTree = "<group>"; };
+		B6046B8D1C23215E00411DE9 /* BrandTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrandTableViewController.swift; sourceTree = "<group>"; };
+		B6046B8F1C23276D00411DE9 /* AddBrandTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddBrandTableViewController.swift; sourceTree = "<group>"; };
 		B67434001C1A2A8E00F8F423 /* GuanJia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuanJia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67434031C1A2A8E00F8F423 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B67434081C1A2A8E00F8F423 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -96,6 +100,8 @@
 				B6BC3DDC1C21660700CAA766 /* AddProductVC.swift */,
 				B6046B831C22D56C00411DE9 /* CategoryTableViewController.swift */,
 				B6046B891C22E6FF00411DE9 /* AddCategoryTableViewController.swift */,
+				B6046B8D1C23215E00411DE9 /* BrandTableViewController.swift */,
+				B6046B8F1C23276D00411DE9 /* AddBrandTableViewController.swift */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -345,11 +351,13 @@
 			files = (
 				B6FEC2FF1C1F760F0066615E /* OrdersTableVC.swift in Sources */,
 				B674343E1C1AD18200F8F423 /* ProductTableViewCell.swift in Sources */,
+				B6046B901C23276D00411DE9 /* AddBrandTableViewController.swift in Sources */,
 				B6FEC3011C1F804C0066615E /* OrderTableViewCell.swift in Sources */,
 				B674343A1C1AC30B00F8F423 /* ProductsTableVC.swift in Sources */,
 				B6FEC2FD1C1F23360066615E /* CustomerTableViewCell.swift in Sources */,
 				B6FEC2F91C1F01B60066615E /* HomeVC.swift in Sources */,
 				B67434041C1A2A8E00F8F423 /* AppDelegate.swift in Sources */,
+				B6046B8E1C23215E00411DE9 /* BrandTableViewController.swift in Sources */,
 				B6046B841C22D56C00411DE9 /* CategoryTableViewController.swift in Sources */,
 				B6046B8A1C22E6FF00411DE9 /* AddCategoryTableViewController.swift in Sources */,
 				B6FEC2FB1C1F1B330066615E /* CustomersTableVC.swift in Sources */,
@@ -431,7 +439,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -470,7 +478,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -488,7 +496,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = GuanJia/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lyon.GuanJia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -506,7 +514,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = GuanJia/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lyon.GuanJia;
 				PRODUCT_NAME = "$(TARGET_NAME)";

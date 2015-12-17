@@ -83,7 +83,5 @@ class CategoryTableViewController: UITableViewController {
         
         // go back to the previous view controller
         self.navigationController?.popViewControllerAnimated(true)
-        
-        
     }
 }

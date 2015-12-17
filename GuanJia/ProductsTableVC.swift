@@ -21,23 +21,42 @@ class ProductsTableVC: UITableViewController {
     var currentPage: Int = 0
     let itemPerPage: Int = 10
     
+    var refreshController: UIRefreshControl =  UIRefreshControl()
+    
     // MARK: View Rendering
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = editButtonItem()
+        
+        self.refreshController.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshController.addTarget(self, action: "refreshTable:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshController)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    func refreshTable(sender:AnyObject) {
+        print("refreshing....")
+        self.productsObjects.removeAll()
+        self.fetchObjectsFromParse()
         
-        if self.shouldUpdateFromParse {
-            if !self.allLoaded {
-                self.fetchObjectsFromParse()
-            }
-        } else {
-            shouldUpdateFromParse = true
-        }
+        self.refreshController.endRefreshing()
+    }
+    
+//    override func viewDidAppear(animated: Bool) {
+//        super.viewDidAppear(animated)
+//        
+//        if self.shouldUpdateFromParse {
+//            if !self.allLoaded {
+//                self.fetchObjectsFromParse()
+//            }
+//        } else {
+//            shouldUpdateFromParse = true
+//        }
+//    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.productsObjects.removeAll()
+        self.fetchObjectsFromParse()
     }
     
     // MARK: Parse Querying
