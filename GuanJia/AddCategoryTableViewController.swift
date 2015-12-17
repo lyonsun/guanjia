@@ -78,6 +78,10 @@ class AddCategoryTableViewController: UITableViewController {
         
     }
 
+    @IBAction func cancelAction(sender: UIBarButtonItem) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
