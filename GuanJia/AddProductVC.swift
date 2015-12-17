@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class AddProductVC: UITableViewController, UITextFieldDelegate {
+class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
     
     // MARK: Properties
     
@@ -17,7 +17,6 @@ class AddProductVC: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var descTextView: UITextView!
     @IBOutlet weak var stockTextField: UITextField!
-    @IBOutlet weak var brandTextField: UITextField!
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var brandLabel: UILabel!
     
@@ -32,12 +31,13 @@ class AddProductVC: UITableViewController, UITextFieldDelegate {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        nameTextField.delegate = self
         stockTextField.delegate = self
+        descTextView.delegate = self
         
         checkTextFieldNotEmpty()
         
-        // enable image tap interaction.
-        // photoView.userInteractionEnabled = true
+        self.tableView.keyboardDismissMode = .Interactive
     }
 
     override func didReceiveMemoryWarning() {
