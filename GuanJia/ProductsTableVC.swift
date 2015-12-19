@@ -139,7 +139,7 @@ class ProductsTableVC: UITableViewController {
         
         if product["category"] != nil {
             let category = product["category"] as! PFObject
-            print(category)
+            
             category.fetchIfNeededInBackgroundWithBlock({ (fetchedCategory, error) -> Void in
                 if fetchedCategory!["name"] != nil {
                     categoryName = fetchedCategory!["name"] as? String
@@ -252,11 +252,31 @@ class ProductsTableVC: UITableViewController {
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        let dest: AddProductVC = segue.destinationViewController as! AddProductVC
+        
         if segue.identifier == "editProduct" {
-            print("edit button pressed")
+            print("edit mode")
+            let indexPath: NSIndexPath = self.tableView.indexPathForSelectedRow!
+            
+            let product = self.productsObjects[indexPath.row]
+            
+            dest.product = product
+            
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
         else if segue.identifier == "addProduct" {
-            print("add button pressed")
+            print("add mode")
         }
+        
+        dest.delegate = self
+    }
+}
+
+extension ProductsTableVC: ProductDelegate {
+    func userDidSaveProduct(message: String) {
+        currentPage = 0
+        let removeAll: Bool = true
+        self.fetchObjectsFromParse(removeAll)
     }
 }

@@ -9,9 +9,15 @@
 import UIKit
 import Parse
 
+protocol ProductDelegate: class {
+    func userDidSaveProduct(message: String)
+}
+
 class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelegate {
     
     // MARK: Properties
+    
+    weak var delegate: ProductDelegate? = nil
     
     @IBOutlet weak var photoView: UIImageView!
     @IBOutlet weak var nameTextField: UITextField!
@@ -22,6 +28,10 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelega
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
+    var product: PFObject?
+    
+    var mode: String? = ""
+    
     var categorySelected = PFObject(className: "category")
     var brandSelected = PFObject(className: "brand")
     
@@ -29,6 +39,63 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelega
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if self.product != nil {
+            
+            self.mode = "edit"
+            
+            let thumbmail = self.product!["imageFile"] as! PFFile
+            
+            thumbmail.getDataInBackgroundWithBlock { (imageData, error) -> Void in
+                if error == nil {
+                    let image = UIImage(data: imageData!)
+                    self.photoView?.image = image
+                }
+            }
+            
+            var categoryName: String?
+            
+            if self.product!["category"] != nil {
+                let category = self.product!["category"] as! PFObject
+                
+                category.fetchIfNeededInBackgroundWithBlock({ (fetchedCategory, error) -> Void in
+                    if fetchedCategory!["name"] != nil {
+                        categoryName = fetchedCategory!["name"] as? String
+                    } else {
+                        categoryName = "Category Not Found"
+                    }
+                })
+            } else {
+                categoryName = "Select a Category"
+            }
+            
+            var brandName: String?
+            
+            if self.product!["brand"] != nil {
+                let brand = self.product!["brand"] as! PFObject
+                
+                brand.fetchIfNeededInBackgroundWithBlock({ (fetchedBrand, error) -> Void in
+                    if fetchedBrand!["name"] != nil {
+                        brandName = fetchedBrand!["name"] as? String
+                    } else {
+                        brandName = "Brand Not Found"
+                    }
+                })
+            } else {
+                brandName = "Select a Brand"
+            }
+            
+            self.categoryLabel?.text = categoryName
+            self.brandLabel?.text = brandName
+            
+            let stock = self.product!["stock"] as! Int
+            
+            self.nameTextField?.text = self.product!["name"] as? String
+            self.descTextView?.text = self.product!["description"] as! String
+            self.stockTextField?.text = String(stock)
+        } else {
+            self.product = PFObject(className: "product")
+        }
 
         // Do any additional setup after loading the view.
         nameTextField.delegate = self
@@ -64,7 +131,6 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelega
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        print(textField)
         checkTextFieldNotEmpty()
     }
     
@@ -81,23 +147,29 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelega
         let imageData = UIImagePNGRepresentation(image)
         let imageFile = PFFile(name:NSUUID().UUIDString, data:imageData!)
         
-        let product = PFObject(className:"product")
+        self.product!["name"] = name
+        self.product!["description"] = description
+        self.product!["stock"] = stock
+        self.product!["category"] = self.categorySelected
+        self.product!["imageFile"] = imageFile
         
-        product["name"] = name
-        product["description"] = description
-        product["stock"] = stock
-        product["category"] = self.categorySelected
-        product["imageFile"] = imageFile
+        let alert = UIAlertController(title: "Saving...", message: "", preferredStyle: .Alert)
         
-        product.saveInBackgroundWithBlock { (success, error) -> Void in
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+        self.product!.saveInBackgroundWithBlock { (success, error) -> Void in
             if error == nil {
                 print("Successful store product: \(success)")
+                
+                self.dismissViewControllerAnimated(true, completion: nil)
+                
+                self.delegate?.userDidSaveProduct(self.mode!)
+                
+                self.navigationController?.popViewControllerAnimated(true)
             } else {
                 print("Error: \(error?.userInfo)")
             }
         }
-        
-        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
     func scaleImageWith(image: UIImage, newSize: CGSize) -> UIImage {
@@ -172,8 +244,6 @@ extension AddProductVC: CategoryDelegate {
         
         let categoryName = category["name"] as? String ?? ""
         
-        print(categoryName)
-        
         self.categorySelected = category as! PFObject
         
         self.categoryLabel.text = categoryName
@@ -187,8 +257,6 @@ extension AddProductVC: BrandDelegate {
     func userDidSelectBrand(brand: AnyObject) {
         
         let brandName = brand["name"] as? String ?? ""
-        
-        print(brandName)
         
         self.brandSelected = brand as! PFObject
         
