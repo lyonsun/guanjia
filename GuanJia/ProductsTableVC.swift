@@ -27,46 +27,60 @@ class ProductsTableVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        currentPage = 0
+        let removeAll: Bool = true
+        self.fetchObjectsFromParse(removeAll)
+        
         navigationItem.leftBarButtonItem = editButtonItem()
         
-        self.refreshController.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        // self.refreshController.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        
+        refreshController.backgroundColor = UIColor.grayColor()
+
         self.refreshController.addTarget(self, action: "refreshTable:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshController)
     }
     
     func refreshTable(sender:AnyObject) {
         print("refreshing....")
-        self.productsObjects.removeAll()
-        currentPage = 0
-        self.fetchObjectsFromParse()
         
-        self.refreshController.endRefreshing()
+        currentPage = 0
+        let removeAll: Bool = true
+        self.fetchObjectsFromParse(removeAll)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        print(productsObjects.count)
-        self.productsObjects.removeAll()
-        currentPage = 0
-        self.fetchObjectsFromParse()
-    }
+//    override func viewWillAppear(animated: Bool) {
+//        currentPage = 0
+//        let removeAll: Bool = true
+//        self.fetchObjectsFromParse(removeAll)
+//    }
     
     // MARK: Parse Querying
     
     func baseQuery() -> PFQuery {
         let query = PFQuery(className: "product")
+        query.includeKey("category")
+        query.includeKey("brand")
         
         query.limit = itemPerPage
         query.skip = currentPage * itemPerPage
-//        query.orderByDescending("updatedAt")
-        query.orderByDescending("name")
+        query.orderByDescending("updatedAt")
         
         return query
     }
     
-    func fetchObjectsFromParse() {
+    func fetchObjectsFromParse(removeAll: Bool) {
         self.baseQuery().fromLocalDatastore()
         self.baseQuery().findObjectsInBackgroundWithBlock { ( parseObjects, error) -> Void in
             if error == nil {
+                
+                if removeAll {
+                    self.productsObjects.removeAll(keepCapacity: false)
+                    // reload table for safty from array out of range.
+                    self.tableView.reloadData()
+                }
+                
                 print("Found \(parseObjects!.count) products from server")
                 
                 self.allLoaded = parseObjects?.count < 10
@@ -84,6 +98,9 @@ class ProductsTableVC: UITableViewController {
                                         self.productsObjects.append(object)
                                     }
                                 }
+                                
+                                // end refreshing after loaded
+                                self.refreshController.endRefreshing()
                                 
                                 // Once we've updated the local datastore, update the view with local datastore
                                 self.tableView.reloadData()
@@ -114,8 +131,42 @@ class ProductsTableVC: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("ProductTableViewCell", forIndexPath: indexPath) as! ProductTableViewCell
         
         let product = productsObjects[indexPath.row]
+        
         let name = product["name"] as! String
         let description = product["description"] as! String
+        
+        var categoryName: String?
+        
+        if product["category"] != nil {
+            let category = product["category"] as! PFObject
+            print(category)
+            category.fetchIfNeededInBackgroundWithBlock({ (fetchedCategory, error) -> Void in
+                if fetchedCategory!["name"] != nil {
+                    categoryName = fetchedCategory!["name"] as? String
+                } else {
+                    categoryName = "Category Not Found"
+                }
+            })
+        } else {
+            categoryName = "No Category"
+        }
+        
+        var brandName: String?
+        
+        if product["brand"] != nil {
+            let brand = product["brand"] as! PFObject
+            
+            brand.fetchIfNeededInBackgroundWithBlock({ (fetchedBrand, error) -> Void in
+                if fetchedBrand!["name"] != nil {
+                    brandName = fetchedBrand!["name"] as? String
+                } else {
+                    brandName = "Brand Not Found"
+                }
+            })
+        } else {
+            brandName = "No Brand"
+        }
+        
         let stock = product["stock"] as! Int
         let thumbmail = product["imageFile"] as! PFFile
         
@@ -126,6 +177,8 @@ class ProductsTableVC: UITableViewController {
         }
 
         cell.nameLabel.text = name
+        cell.categoryLabel.text = categoryName
+        cell.brandLabel.text = brandName
         cell.descLabel.text = description
         cell.stockLabel.text = String(stock)
         
@@ -151,7 +204,7 @@ class ProductsTableVC: UITableViewController {
             if !self.allLoaded {
                 self.currentPage = Int(self.productsObjects.count / self.itemPerPage)
                 
-                self.fetchObjectsFromParse()
+                self.fetchObjectsFromParse(false)
             } else {
                 // all loaded
                 print("all loaded \(self.productsObjects.count)")
