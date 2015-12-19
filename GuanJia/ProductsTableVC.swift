@@ -37,25 +37,16 @@ class ProductsTableVC: UITableViewController {
     func refreshTable(sender:AnyObject) {
         print("refreshing....")
         self.productsObjects.removeAll()
+        currentPage = 0
         self.fetchObjectsFromParse()
         
         self.refreshController.endRefreshing()
     }
     
-//    override func viewDidAppear(animated: Bool) {
-//        super.viewDidAppear(animated)
-//        
-//        if self.shouldUpdateFromParse {
-//            if !self.allLoaded {
-//                self.fetchObjectsFromParse()
-//            }
-//        } else {
-//            shouldUpdateFromParse = true
-//        }
-//    }
-    
     override func viewWillAppear(animated: Bool) {
+        print(productsObjects.count)
         self.productsObjects.removeAll()
+        currentPage = 0
         self.fetchObjectsFromParse()
     }
     
@@ -66,7 +57,8 @@ class ProductsTableVC: UITableViewController {
         
         query.limit = itemPerPage
         query.skip = currentPage * itemPerPage
-        query.orderByDescending("updatedAt")
+//        query.orderByDescending("updatedAt")
+        query.orderByDescending("name")
         
         return query
     }
