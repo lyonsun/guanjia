@@ -135,8 +135,6 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelega
     }
     
     @IBAction func saveAction(sender: UIBarButtonItem) {
-        print("save tapped")
-        
         let name: String? = self.nameTextField.text
         let description: String? = self.descTextView.text
         let stock: Int? = Int(self.stockTextField.text!)
@@ -151,6 +149,7 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelega
         self.product!["description"] = description
         self.product!["stock"] = stock
         self.product!["category"] = self.categorySelected
+        self.product!["brand"] = self.brandSelected
         self.product!["imageFile"] = imageFile
         
         let alert = UIAlertController(title: "Saving...", message: "", preferredStyle: .Alert)
