@@ -32,8 +32,8 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelega
     
     var mode: String? = ""
     
-    var categorySelected = PFObject(className: "category")
-    var brandSelected = PFObject(className: "brand")
+    var categorySelected: PFObject?
+    var brandSelected: PFObject?
     
     // MARK: View rendering
 
@@ -65,6 +65,8 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelega
                         categoryName = "Category Not Found"
                     }
                 })
+                
+                self.categorySelected = category
             } else {
                 categoryName = "Select a Category"
             }
@@ -81,6 +83,8 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelega
                         brandName = "Brand Not Found"
                     }
                 })
+                
+                self.brandSelected = brand
             } else {
                 brandName = "Select a Brand"
             }
@@ -95,6 +99,10 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelega
             self.stockTextField?.text = String(stock)
         } else {
             self.product = PFObject(className: "product")
+            self.categorySelected = PFObject(className: "category")
+            self.categorySelected!["name"] = "Uncategoried"
+            self.brandSelected = PFObject(className: "brand")
+            self.brandSelected!["name"] = "Unbranded"
         }
 
         // Do any additional setup after loading the view.
@@ -148,6 +156,7 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelega
         self.product!["name"] = name
         self.product!["description"] = description
         self.product!["stock"] = stock
+            
         self.product!["category"] = self.categorySelected
         self.product!["brand"] = self.brandSelected
         self.product!["imageFile"] = imageFile
@@ -210,11 +219,13 @@ class AddProductVC: UITableViewController, UITextFieldDelegate, UITextViewDelega
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "selectCategory" {
-            let catogoryList = segue.destinationViewController as! CategoryTableViewController
-            catogoryList.delegate = self
+            let categoryList = segue.destinationViewController as! CategoryTableViewController
+            categoryList.delegate = self
+            categoryList.category = self.categoryLabel?.text
         } else if segue.identifier == "selectBrand" {
             let brandList = segue.destinationViewController as! BrandTableViewController
             brandList.delegate = self
+            brandList.brand = self.brandLabel?.text
         }
     }
 }
@@ -243,7 +254,7 @@ extension AddProductVC: CategoryDelegate {
         
         let categoryName = category["name"] as? String ?? ""
         
-        self.categorySelected = category as! PFObject
+        self.categorySelected = category as? PFObject
         
         self.categoryLabel.text = categoryName
     }
@@ -257,7 +268,7 @@ extension AddProductVC: BrandDelegate {
         
         let brandName = brand["name"] as? String ?? ""
         
-        self.brandSelected = brand as! PFObject
+        self.brandSelected = brand as? PFObject
         
         self.brandLabel.text = brandName
     }

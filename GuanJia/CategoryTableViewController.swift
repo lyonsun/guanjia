@@ -18,6 +18,8 @@ class CategoryTableViewController: UITableViewController {
     weak var delegate: CategoryDelegate? = nil
     
     var categories = [PFObject]()
+    
+    var category: String?
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -69,7 +71,13 @@ class CategoryTableViewController: UITableViewController {
         // Configure the cell...
         let category = self.categories[indexPath.row]
         
-        cell.textLabel?.text = category["name"] as? String
+        let categoryName = category["name"] as? String
+        
+        cell.textLabel?.text = categoryName
+        
+        if self.category != nil && self.category! == categoryName {
+            cell.accessoryType = .Checkmark
+        }
 
         return cell
     }

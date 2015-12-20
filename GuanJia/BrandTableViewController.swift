@@ -18,6 +18,8 @@ class BrandTableViewController: UITableViewController {
     weak var delegate: BrandDelegate? = nil
     
     var brandsObjects = [PFObject]()
+    
+    var brand: String?
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -68,6 +70,10 @@ class BrandTableViewController: UITableViewController {
         let brandName = brand["name"] as? String
         
         cell.textLabel?.text = brandName
+        
+        if self.brand != nil && self.brand == brandName {
+            cell.accessoryType = .Checkmark
+        }
         
         return cell
     }
